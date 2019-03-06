@@ -7,13 +7,12 @@ import java.lang.ref.WeakReference;
 /**
  * Created by classic on 2017/2/26.
  */
-
 public class EasyFileChoose {
 
     public static final String INTENT_KEY_PATH = "path";
 
-    private String                  mTitle;
-    private String                  mRootPath;
+    private String mTitle;
+    private String mRootPath;
     private WeakReference<Activity> mActivity;
 
     private EasyFileChoose(Builder builder) {
@@ -22,14 +21,12 @@ public class EasyFileChoose {
         mActivity = new WeakReference<>(builder.activity);
     }
 
-
     public void choose(int requestCode) {
         Activity activity = mActivity.get();
-        if(activity != null) {
+        if (activity != null) {
             FileChooseActivity.start(activity, mTitle, mRootPath, requestCode);
         }
     }
-
 
     public static final class Builder {
         private String title;

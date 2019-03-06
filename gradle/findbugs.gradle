@@ -1,0 +1,19 @@
+apply plugin: "findbugs"
+
+task findbugs(type: FindBugs, dependsOn: 'assembleDebug') {
+    ignoreFailures = true
+    effort = "max"
+    showProgress = true
+    reportLevel = "low" // high medium low
+    println("$project.buildDir")
+    excludeFilter = rootProject.file('FindBugsFilter.xml')
+    //classes = files("$project.buildDir/intermediates/classes")
+    classes = files("$project.buildDir/intermediates/javac")
+    source = fileTree("src/main/java/")
+    classpath = files()
+    reports {
+        xml.enabled false
+        html.enabled true
+        html.setDestination(new File("$project.buildDir/findbugs.html"))
+    }
+}

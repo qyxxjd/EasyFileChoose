@@ -32,21 +32,16 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class FileChooseActivity extends AppCompatActivity implements
-        CommonRecyclerAdapter.OnItemClickListener,
-        Toolbar.OnMenuItemClickListener{
+public class FileChooseActivity extends AppCompatActivity implements CommonRecyclerAdapter.OnItemClickListener, Toolbar.OnMenuItemClickListener {
 
     private static final int LOAD_FILES_FINISH = 1;
-    private static final String PARAMS_TITLE    = "title";
-    private static final String PARAMS_PATH    = "rootPath";
-
-    private Toolbar      mToolbar;
-    private RecyclerView mRecyclerView;
-    private TextView     mPathView;
+    private static final String PARAMS_TITLE = "title";
+    private static final String PARAMS_PATH = "rootPath";
 
     private Context mAppContext;
-    private String  mTitle;
-    private String  mRootPath;
+    private Toolbar mToolbar;
+    private RecyclerView mRecyclerView;
+    private TextView mPathView;
 
     private String mCurrentPath;
     private File mChooseFile;
@@ -56,24 +51,27 @@ public class FileChooseActivity extends AppCompatActivity implements
 
     private final ExecutorService mExecutorService = Executors.newSingleThreadExecutor();
 
-    private static final String ROOT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
+    private static final String ROOT_PATH = Environment.getExternalStorageDirectory()
+                                                       .getAbsolutePath();
     private final HashMap<String, List<File>> mCache = new HashMap<>();
 
-    public static void start(@NonNull Activity activity, String title, String rootPath, int requestCode) {
+    public static void start(@NonNull Activity activity, String title, String rootPath,
+                             int requestCode) {
         Intent intent = new Intent(activity, FileChooseActivity.class);
-        if(!TextUtils.isEmpty(title)) {
+        if (!TextUtils.isEmpty(title)) {
             intent.putExtra(PARAMS_TITLE, title);
         }
-        if(!TextUtils.isEmpty(rootPath)) {
+        if (!TextUtils.isEmpty(rootPath)) {
             intent.putExtra(PARAMS_PATH, rootPath);
         }
         activity.startActivityForResult(intent, requestCode);
     }
 
     private final WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
-        @Override public boolean handleMessage(Message msg) {
-            if(msg.what == LOAD_FILES_FINISH) {
-                if (((int)(msg.obj))>0) {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (msg.what == LOAD_FILES_FINISH) {
+                if (((int) (msg.obj)) > 0) {
                     mFileAdapter.setChoosePosition(-1);
                     mPathView.setText(mCurrentPath);
                     mFileAdapter.replaceAll(mCurrentFiles);
@@ -84,17 +82,18 @@ public class FileChooseActivity extends AppCompatActivity implements
         }
     });
 
-    @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_choose);
 
         mAppContext = getApplicationContext();
-        mToolbar = (Toolbar) findViewById(R.id.file_choose_toolbar);
-        mRecyclerView = (RecyclerView) findViewById(R.id.file_choose_rv);
-        mPathView = (TextView) findViewById(R.id.file_choose_path);
+        mToolbar = findViewById(R.id.file_choose_toolbar);
+        mRecyclerView = findViewById(R.id.file_choose_rv);
+        mPathView = findViewById(R.id.file_choose_path);
         initView();
 
-        if(getIntent().hasExtra(PARAMS_TITLE)) {
+        if (getIntent().hasExtra(PARAMS_TITLE)) {
             setTitle(getIntent().getStringExtra(PARAMS_TITLE));
         } else {
             setTitle(R.string.title);
@@ -102,20 +101,24 @@ public class FileChooseActivity extends AppCompatActivity implements
         mFileAdapter = new FileAdapter(mAppContext);
         mRecyclerView.setAdapter(mFileAdapter);
         mFileAdapter.setOnItemClickListener(this);
-        mCurrentPath = getIntent().hasExtra(PARAMS_PATH) ? getIntent().getStringExtra(PARAMS_PATH) : ROOT_PATH;
+        mCurrentPath = getIntent().hasExtra(PARAMS_PATH) ?
+                getIntent().getStringExtra(PARAMS_PATH) : ROOT_PATH;
         loadFiles(mCurrentPath);
     }
 
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_file_choose, menu);
         return true;
     }
 
-    @Override public boolean onMenuItemClick(MenuItem menuItem) {
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
         int i = menuItem.getItemId();
         if (i == R.id.action_finish) {
-            if(null == mChooseFile) {
-                Toast.makeText(mAppContext, R.string.no_choose_file, Toast.LENGTH_SHORT).show();
+            if (null == mChooseFile) {
+                Toast.makeText(mAppContext, R.string.no_choose_file, Toast.LENGTH_SHORT)
+                     .show();
                 return false;
             }
 
@@ -128,18 +131,20 @@ public class FileChooseActivity extends AppCompatActivity implements
         return false;
     }
 
-    @Override public void onBackPressed() {
-        if(mCurrentPath.equals(ROOT_PATH)) {
+    @Override
+    public void onBackPressed() {
+        if (mCurrentPath.equals(ROOT_PATH)) {
             setResult(RESULT_CANCELED);
             super.onBackPressed();
-        }else {
+        } else {
             mChooseFile = null;
             final String path = new File(mCurrentPath).getParentFile().getAbsolutePath();
             loadFiles(path);
         }
     }
 
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
@@ -154,46 +159,52 @@ public class FileChooseActivity extends AppCompatActivity implements
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
         mToolbar.setOnMenuItemClickListener(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mAppContext));
-//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        //        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     private static final FileFilter FILTER = new FileFilter() {
-        @Override public boolean accept(File file) {
-            return (file.isFile() && file.getName().endsWith(".jpg")) ||
-                    (file.isDirectory() && !file.getName().startsWith("."));
+        @Override
+        public boolean accept(File file) {
+            return (file.isFile() && file.getName()
+                                         .endsWith(
+                                                 ".jpg")) || (file.isDirectory() && !file.getName()
+                                                                                         .startsWith(
+                                                                                                 "."));
         }
     };
 
-    @Override public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int position) {
-//        Toast.makeText(mAppContext, position+","+mCurrentPath, Toast.LENGTH_SHORT).show();
-        if(position>=mCurrentFiles.size()) return;
+    @Override
+    public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int position) {
+        //        Toast.makeText(mAppContext, position+","+mCurrentPath, Toast.LENGTH_SHORT).show();
+        if (position >= mCurrentFiles.size()) return;
         mFileAdapter.setChoosePosition(position);
         mChooseFile = mCurrentFiles.get(position);
-        if(mChooseFile.isDirectory()) {
+        if (mChooseFile.isDirectory()) {
             loadFiles(mChooseFile.getAbsolutePath());
         }
     }
 
     private void loadFiles(@NonNull final String path) {
-        Log.e("", "load path:"+path);
-        if(isFileProcessing) {
+        Log.e("", "load path:" + path);
+        if (isFileProcessing) {
             return;
         }
         isFileProcessing = true;
         mExecutorService.submit(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 List<File> files = null;
-                if(mCache.containsKey(path)) {
+                if (mCache.containsKey(path)) {
                     files = mCache.get(path);
                 } else {
                     File[] fileArray = new File(path).listFiles(FILTER);
-                    if(null != fileArray && fileArray.length > 0) {
-                        Log.e("", "fileArray:"+fileArray.length);
+                    if (null != fileArray && fileArray.length > 0) {
+                        Log.e("", "fileArray:" + fileArray.length);
                         files = Arrays.asList(fileArray);
                         mCache.put(path, files);
                     }
                 }
-                if(null == files || files.size() == 0) {
+                if (null == files || files.size() == 0) {
                     isFileProcessing = false;
                     return;
                 }

@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.classic.filechoose.EasyFileChoose;
+import com.classic.file.choose.EasyFileChoose;
 
 public class MainActivity extends AppCompatActivity {
 
