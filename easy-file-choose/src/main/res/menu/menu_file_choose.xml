@@ -4,7 +4,7 @@
     <item android:id="@+id/action_finish"
         android:title="@string/finish"
         android:orderInCategory="1"
-        android:icon="@drawable/ic_finish"
+        android:icon="@drawable/ic_done"
         app:showAsAction="ifRoom" />
 
 </menu>

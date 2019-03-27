@@ -1,4 +1,4 @@
-package com.classic.filechoose.demo;
+package com.classic.file.choose.demo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,27 +10,29 @@ import com.classic.file.choose.EasyFileChoose;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final int mRequestCode = 566;
+    private static final int REQUEST_CODE = 101;
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
     }
 
     public void choose(View view) {
         new EasyFileChoose.Builder().activity(this)
-                                    .title("自定义文件选择")
+                                    .title("自定义标题")
+                                    // .fileFilter(new FileTypeFilter("zip"))
                                     .build()
-                                    .choose(mRequestCode);
+                                    .choose(REQUEST_CODE);
     }
 
-    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == mRequestCode && resultCode == RESULT_OK) {
-            Toast.makeText(MainActivity.this, "选择的文件："+data.getStringExtra(EasyFileChoose.INTENT_KEY_PATH),
-                           Toast.LENGTH_SHORT).show();
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            Toast.makeText(MainActivity.this, "选择的文件：" + EasyFileChoose.getPath(data),
+                           Toast.LENGTH_SHORT)
+                 .show();
         }
-
     }
 }

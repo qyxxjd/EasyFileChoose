@@ -1,4 +1,4 @@
-package com.classic.filechoose;
+package com.classic.file.choose;
 
 import android.os.Handler;
 import android.os.Looper;

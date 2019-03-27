@@ -3,21 +3,45 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:3.3.2'
+        //https://github.com/dcendents/android-maven-gradle-plugin
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        //https://github.com/bintray/gradle-bintray-plugin
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        google()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    projectName = 'EasyFileChoose'
+    projectDesc = 'android file choose library'
+    projectGroup = 'com.classic.file.choose'
+    projectVersionCode = 2
+
+    projectVersion = '0.2'
+    projectArtifactId = 'easy-file-choose'
+
+    orgName = 'classic'
+    repoName = 'maven'
+
+    developerId = 'qyxxjd'
+    developerName = 'classic'
+    developerEmail = 'pgliubin@gmail.com'
+    githubUrl = 'https://github.com/qyxxjd/EasyFileChoose'
+
+    licensesName = 'MIT'
+    licensesUrl = 'http://opensource.org/licenses/MIT'
 }

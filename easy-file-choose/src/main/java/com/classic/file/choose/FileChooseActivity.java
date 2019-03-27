@@ -1,4 +1,4 @@
-package com.classic.filechoose;
+package com.classic.file.choose;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,18 +25,25 @@ import android.widget.Toast;
 import com.classic.adapter.CommonRecyclerAdapter;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class FileChooseActivity extends AppCompatActivity implements CommonRecyclerAdapter.OnItemClickListener, Toolbar.OnMenuItemClickListener {
+/**
+ * 文件选择页面
+ *
+ * @author Classic
+ * @version v1.0, 2017/2/26 4:02 PM
+ */
+public class FileChooseActivity extends AppCompatActivity
+        implements CommonRecyclerAdapter.OnItemClickListener, Toolbar.OnMenuItemClickListener {
 
     private static final int LOAD_FILES_FINISH = 1;
     private static final String PARAMS_TITLE = "title";
-    private static final String PARAMS_PATH = "rootPath";
+    private static final String PARAMS_PATH = "path";
 
     private Context mAppContext;
     private Toolbar mToolbar;
@@ -117,7 +124,7 @@ public class FileChooseActivity extends AppCompatActivity implements CommonRecyc
         int i = menuItem.getItemId();
         if (i == R.id.action_finish) {
             if (null == mChooseFile) {
-                Toast.makeText(mAppContext, R.string.no_choose_file, Toast.LENGTH_SHORT)
+                Toast.makeText(mAppContext, R.string.noChooseFileHint, Toast.LENGTH_SHORT)
                      .show();
                 return false;
             }
@@ -159,23 +166,10 @@ public class FileChooseActivity extends AppCompatActivity implements CommonRecyc
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
         mToolbar.setOnMenuItemClickListener(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mAppContext));
-        //        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
-
-    private static final FileFilter FILTER = new FileFilter() {
-        @Override
-        public boolean accept(File file) {
-            return (file.isFile() && file.getName()
-                                         .endsWith(
-                                                 ".jpg")) || (file.isDirectory() && !file.getName()
-                                                                                         .startsWith(
-                                                                                                 "."));
-        }
-    };
 
     @Override
     public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int position) {
-        //        Toast.makeText(mAppContext, position+","+mCurrentPath, Toast.LENGTH_SHORT).show();
         if (position >= mCurrentFiles.size()) return;
         mFileAdapter.setChoosePosition(position);
         mChooseFile = mCurrentFiles.get(position);
@@ -185,7 +179,7 @@ public class FileChooseActivity extends AppCompatActivity implements CommonRecyc
     }
 
     private void loadFiles(@NonNull final String path) {
-        Log.e("", "load path:" + path);
+        Log.d("", "Load path: " + path);
         if (isFileProcessing) {
             return;
         }
@@ -197,10 +191,13 @@ public class FileChooseActivity extends AppCompatActivity implements CommonRecyc
                 if (mCache.containsKey(path)) {
                     files = mCache.get(path);
                 } else {
-                    File[] fileArray = new File(path).listFiles(FILTER);
+                    File[] fileArray = getFiles(path);
                     if (null != fileArray && fileArray.length > 0) {
-                        Log.e("", "fileArray:" + fileArray.length);
+                        Log.d("", "File array length : " + fileArray.length);
                         files = Arrays.asList(fileArray);
+                        if (null != EasyFileChoose.fileComparator()) {
+                            Collections.sort(files, EasyFileChoose.fileComparator());
+                        }
                         mCache.put(path, files);
                     }
                 }
@@ -217,5 +214,15 @@ public class FileChooseActivity extends AppCompatActivity implements CommonRecyc
                 mHandler.sendMessage(message);
             }
         });
+    }
+
+    private File[] getFiles(@NonNull String path) {
+        if (EasyFileChoose.fileFilter() != null) {
+            return new File(path).listFiles(EasyFileChoose.fileFilter());
+        } else if (EasyFileChoose.nameFilter() != null) {
+            return new File(path).listFiles(EasyFileChoose.nameFilter());
+        } else {
+            return new File(path).listFiles();
+        }
     }
 }

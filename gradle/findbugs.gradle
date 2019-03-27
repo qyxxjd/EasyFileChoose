@@ -6,8 +6,7 @@ task findbugs(type: FindBugs, dependsOn: 'assembleDebug') {
     showProgress = true
     reportLevel = "low" // high medium low
     println("$project.buildDir")
-    excludeFilter = rootProject.file('FindBugsFilter.xml')
-    //classes = files("$project.buildDir/intermediates/classes")
+    excludeFilter = rootProject.file('gradle/FindBugsFilter.xml')
     classes = files("$project.buildDir/intermediates/javac")
     source = fileTree("src/main/java/")
     classpath = files()
