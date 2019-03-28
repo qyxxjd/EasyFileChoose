@@ -29,9 +29,9 @@ ext {
     projectName = 'EasyFileChoose'
     projectDesc = 'android file choose library'
     projectGroup = 'com.classic.file.choose'
-    projectVersionCode = 2
+    projectVersionCode = 3
 
-    projectVersion = '0.2'
+    projectVersion = '0.3'
     projectArtifactId = 'easy-file-choose'
 
     orgName = 'classic'

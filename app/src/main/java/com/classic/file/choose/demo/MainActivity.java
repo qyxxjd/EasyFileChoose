@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     public void choose(View view) {
         new EasyFileChoose.Builder().activity(this)
                                     .title("自定义标题")
-                                    // .fileFilter(new FileTypeFilter("zip"))
                                     .build()
                                     .choose(REQUEST_CODE);
     }
