@@ -31,16 +31,9 @@ public class Xxx {
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            final String path = EasyFileChoose.getPath(data);
             // TODO
         }
     }
 }
 ```
-
-#### TODO
-
-- 支持选择文件
-- 支持选择目录
-- 支持文件类型过滤
-- 支持自定义路径
-- 文件、目录排序
