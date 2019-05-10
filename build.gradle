@@ -1,12 +1,11 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.4.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.31"
         //https://github.com/dcendents/android-maven-gradle-plugin
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         //https://github.com/bintray/gradle-bintray-plugin
@@ -29,9 +28,9 @@ ext {
     projectName = 'EasyFileChoose'
     projectDesc = 'android file choose library'
     projectGroup = 'com.classic.file.choose'
-    projectVersionCode = 3
+    projectVersionCode = 5
 
-    projectVersion = '0.3'
+    projectVersion = '0.5'
     projectArtifactId = 'easy-file-choose'
 
     orgName = 'classic'

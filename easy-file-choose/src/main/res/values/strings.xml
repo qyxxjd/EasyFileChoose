@@ -1,5 +1,5 @@
 <resources>
-    <string name="title">Easy file choose</string>
-    <string name="noChooseFileHint">No choose file</string>
-    <string name="finish">finish</string>
+    <string name="easy_file_choose_title">Easy file choose</string>
+    <string name="easy_file_choose_empty_hint">No choose file</string>
+    <string name="easy_file_choose_finish">finish</string>
 </resources>

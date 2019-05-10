@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EasyFileChoose</string>
+    <string name="custom_title">这里是自定义的标题</string>
 </resources>

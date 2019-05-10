@@ -7,7 +7,7 @@
 
     <android.support.v7.widget.Toolbar
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/file_choose_toolbar"
+        android:id="@+id/easy_file_choose_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:minHeight="?attr/actionBarSize"
@@ -15,12 +15,12 @@
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
 
     <TextView
-        style="@style/Text.Path"
-        android:id="@+id/file_choose_path"
+        style="@style/EasyFileChoose.Path"
+        android:id="@+id/easy_file_choose_path"
         tools:text="/sdcard/"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/file_choose_rv"
+        android:id="@+id/easy_file_choose_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-
-    <color name="primaryText">#212121</color>
-    <color name="primaryTextLight">#727272</color>
-    <color name="secondaryText">#9E9E9E</color>
-    <color name="divider">#B6B6B6</color>
+    <color name="EasyFileChooseColorPrimary">#3F51B5</color>
+    <color name="EasyFileChooseColorPrimaryDark">#303F9F</color>
+    <color name="EasyFileChooseColorAccent">#FF4081</color>
+    <color name="EasyFileChoosePrimaryText">#212121</color>
+    <color name="EasyFileChoosePrimaryTextLight">#727272</color>
+    <color name="EasyFileChooseSecondaryText">#9E9E9E</color>
+    <color name="EasyFileChooseSelected">#B6B6B6</color>
+    <color name="EasyFileChooseTransparent">@android:color/transparent</color>
 </resources>

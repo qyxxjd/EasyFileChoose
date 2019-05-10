@@ -6,7 +6,7 @@
     <application>
         <activity
             android:name="com.classic.file.choose.FileChooseActivity"
-            android:theme="@style/FileChooseTheme" />
+            android:theme="@style/EasyFileChoose.Theme" />
     </application>
 
 </manifest>

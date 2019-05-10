@@ -2,9 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item android:id="@+id/action_finish"
-        android:title="@string/finish"
+        android:title="@string/easy_file_choose_finish"
         android:orderInCategory="1"
-        android:icon="@drawable/ic_done"
+        android:icon="@drawable/ic_easy_file_choose_done"
         app:showAsAction="ifRoom" />
 
 </menu>
